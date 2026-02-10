@@ -153,9 +153,15 @@
           index = i ;
         }
       });
-      next =
-        imagesCollection[index] ||
-        imagesCollection[imagesCollection.length - 1];
+
+     // --- CORRECTION DE BUG : La flèche précédente fonctionnait mal ---
+      index = index - 1; 
+      if (index < 0) { 
+          index = imagesCollection.length - 1; 
+      }
+
+      next = imagesCollection[index];
+
       $(".lightboxImage").attr("src", $(next).attr("src"));
     },
     nextImage() {
@@ -192,7 +198,14 @@
           index = i;
         }
       });
-      next = imagesCollection[index] || imagesCollection[0];
+
+      // --- CORRECTION DE BUG : La flèche suivante fonctionnait mal ---
+      index = index + 1; 
+        if (index >= imagesCollection.length) { 
+          index = 0; 
+        }
+      next = imagesCollection[index];
+
       $(".lightboxImage").attr("src", $(next).attr("src"));
     },
     createLightBox(gallery, lightboxId, navigation) {
@@ -240,7 +253,8 @@
         return;
       }
       $(".active-tag").removeClass("active active-tag");
-      $(this).addClass("active-tag");
+      // --- CORRECTION DE BUG : Amélioration du retour visuel sur les filtres ---
+      $(this).addClass("active active-tag");
 
       var tag = $(this).data("images-toggle");
 
